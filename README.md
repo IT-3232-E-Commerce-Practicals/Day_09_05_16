@@ -1,36 +1,57 @@
 # Employee Management System
 
-## Overview
-This is a Spring Boot application for managing departments and employees in an organization. The application provides RESTful APIs to perform CRUD (Create, Read, Update, Delete) operations on department and employee data.
+## Introduction
+This is a Spring Boot application designed to manage departments and employees in an organization. It provides RESTful APIs to perform CRUD (Create, Read, Update, Delete) operations on department and employee data. Currently, the main focus is on department management. Employee functionality is referenced but not fully implemented.
 
+---
+ 
 ## Project Structure
 
-### Models
-- **Department**: Entity class representing a department with attributes such as id, name, established date, and a list of employees.
-- **Employee**: Entity class representing employees (referenced in Department but not shown in the provided code).
+### 1. Model Layer
+- **Department**
+  - Represents a department with the following attributes:
+    - `id`: Unique identifier
+    - `name`: Department name
+    - `establishedDate`: Date the department was created
+    - `employees`: List of associated employees (not detailed in code)
 
-### Repository
-- **DepartmentRepo**: JPA repository interface for Department entity that extends JpaRepository to provide CRUD operations.
+- **Employee**
+  - Placeholder entity for employee details (not included in the provided code).
 
-### Service
-- **DepartmentService**: Service class that handles business logic for department operations.
-  - Gets all departments
-  - Gets a department by ID
+### 2. Repository Layer
+- **DepartmentRepo**
+  - JPA repository interface for the `Department` entity.
+  - Extends `JpaRepository<Department, Long>` to support built-in CRUD operations.
 
-### Controller
-- **DepartmentController**: REST controller that handles HTTP requests for department operations.
-  - GET /dept - Retrieves all departments
-  - GET /dept/{id} - Retrieves a specific department by ID
-  - (Commented out) POST, PUT, DELETE operations for departments
+### 3. Service Layer
+- **DepartmentService**
+  - Contains the business logic for handling department-related operations:
+    - Get all departments
+    - Get a department by ID
 
-## Database Configuration
-The application uses MySQL database with the following configuration:
-- Database URL: jdbc:mysql://localhost:3306/employee
-- Username: root
-- Password: (empty)
-- Hibernate DDL Auto: update (creates/updates tables automatically)
+### 4. Controller Layer
+- **DepartmentController**
+  - REST controller to manage department API endpoints:
+    - `GET /dept` - Retrieve all departments
+    - `GET /dept/{id}` - Retrieve a department by ID
+    - *(Commented-out methods for POST, PUT, DELETE exist but are not active)*
+
+---
+ 
+ ## Database Configuration
+
+The application connects to a MySQL database using the following properties:
+
+```properties
+spring.datasource.url=jdbc:mysql://localhost:3306/employee
+spring.datasource.username=root
+spring.datasource.password=
+spring.jpa.hibernate.ddl-auto=update
+```
+---
 
 ## How to Run
+
 1. Ensure you have Java 11 or higher installed
 2. Install MySQL and create a database named 'employee'
 3. Configure the database connection in application.properties
@@ -40,80 +61,77 @@ The application uses MySQL database with the following configuration:
 ## API Endpoints
 
 ### Department Endpoints
-- **GET /dept**: Retrieves all departments
-  - Response: List of Department objects
-  - Status codes: 200 OK
+
+| Method | Endpoint     | Description                  | Response                    | Status Code |
+|--------|--------------|------------------------------|-----------------------------|-------------|
+| GET    | `/dept`      | Get a list of all departments | Array of Department objects | 200 OK      |
+| GET    | `/dept/{id}` | Get details of a department by ID | Single Department object     | 200 OK / 404 Not Found |
+
  
  ![Screenshot (58)](https://github.com/user-attachments/assets/49b48ae7-339c-499e-aa31-628e9db2099a)
-
-
-
-- **GET /dept/{id}**: Retrieves a specific department by ID
-  - Path variable: id (Department ID)
-  - Response: Department object
-  - Status codes: 200 OK (if found), 404 NOT_FOUND (if not found)
-
- 
 ![Screenshot (59)](https://github.com/user-attachments/assets/da19faf4-c8b6-44ab-854c-cf25f37f55ea)
 ![Screenshot (60)](https://github.com/user-attachments/assets/68fb95ed-e08e-41bc-96fa-72e82ae59d11)
 
 
 
-### Commented Department Endpoints (Ready for Implementation)
-The following endpoints are commented out in the code but ready for implementation:
-- **GET /dept**: Retrieves all departments
-  - Response: List of Department objects
-  - Implementation: Saves the department to the database using repository
+### Commented Department Endpoints
+These endpoints exist in the code but are currently commented out, and can be implemented later:
+
+- **GET /dept**  
+  - Description: Fetches the complete list of departments  
+  - Response: Returns a JSON array of Department objects  
+  - Implementation Note: This endpoint saves a department to the database via the repository (to be activated)  
+
  ![Screenshot (63)](https://github.com/user-attachments/assets/5151a3cd-1d04-42a0-ad96-2ad39ed99d57)
 
-
-
-
-
-- **GET /dept/{id}**: Retrieves a specific department by ID
-  - Path variable: id (Department ID)
-  - Response: Department object
-  - Implementation: Saves the department to the database using repository
- 
- ![Screenshot (65)](https://github.com/user-attachments/assets/e4bc75a6-7c8e-46fc-a82b-b9b3f94e77fa)
-
-- **POST /dept**: Creates a new department
-  - Request body: Department object
-  - Response: String message "New Department added"
-  - Implementation: Saves the department to the database using repository
- ![Screenshot (61)](https://github.com/user-attachments/assets/099822f7-6ecf-4212-8814-1979bfe6b7dd)
-
+- **GET /dept/{id}**  
+  - Description: Fetch a department by its ID  
+  - Path Parameter: `id` (ID of the department)  
+  - Response: Returns the Department object  
+  - Implementation Detail: Saves the department to the database using the repository (currently commented out)  
   
+  ![Screenshot (65)](https://github.com/user-attachments/assets/e4bc75a6-7c8e-46fc-a82b-b9b3f94e77fa)
 
-- **PUT /dept/{id}**: Updates an existing department
-  - Path variable: id (Department ID)
-  - Request body: Updated Department object
-  - Response: String message "The Department Updated" if successful, "Couldn't find the department" if not found
-  - Implementation: Checks if department exists, then saves the updated department
- 
-   ![Screenshot (62)](https://github.com/user-attachments/assets/82f0c29d-b653-43a1-a004-385d9a6409ff)
+- **POST /dept**  
+  - Description: Create a new department  
+  - Request Body: Department object in JSON format  
+  - Response: Confirmation message "New Department added"  
+  - Implementation Detail: Saves the new department to the database via repository  
+  
+  ![Screenshot (61)](https://github.com/user-attachments/assets/099822f7-6ecf-4212-8814-1979bfe6b7dd)
 
+- **PUT /dept/{id}**  
+  - Description: Update details of an existing department  
+  - Path Parameter: `id` (ID of the department to update)  
+  - Request Body: Updated Department object  
+  - Response: Success message "The Department Updated" or error message "Couldn't find the department" if not found  
+  - Implementation Detail: Verifies existence before updating and saving the department  
+  
+  ![Screenshot (62)](https://github.com/user-attachments/assets/82f0c29d-b653-43a1-a004-385d9a6409ff)
 
-- **DELETE /dept/{id}**: Deletes a department
-  - Path variable: id (Department ID)
-  - Response: String message "The Department Deleted" if successful, "Couldn't find the department" if not found
-  - Implementation: Checks if department exists, then deletes the department by ID
+- **DELETE /dept/{id}**  
+  - Description: Delete a department by ID  
+  - Path Parameter: `id` (ID of the department to delete)  
+  - Response: Success message "The Department Deleted" or error message "Couldn't find the department" if not found  
+  - Implementation Detail: Checks if the department exists and deletes it by ID
+
  
   ![Screenshot (66)](https://github.com/user-attachments/assets/d42d0003-9e02-42cb-bbce-6ca3296a16b1)
 
 
-## Entity Relationships
-- A Department has many Employees (One-to-Many relationship)
-- The relationship is mapped by the 'department' field in the Employee entity
+## Relationship Between Entities
+- Each Department can include multiple Employees, defining a one-to-many association.
+- This link is established through the `department` attribute within the Employee class.
 
-## Notes
-- The Department Controller includes two implementation approaches:
-  1. Current active implementation using a service layer (DepartmentService)
-  2. Commented out direct repository implementation that can be uncommented for simpler usage
-- The commented implementation provides full CRUD operations (GET, POST, PUT, DELETE)
-- To use the commented implementation, uncomment the code in DepartmentController and comment out the current service-based implementation
-- Consider implementing proper exception handling and validation for production use
-- Future development could include implementing the Employee entity and related endpoints
+## Additional Information
+- The DepartmentController is designed with two implementation options:
+  1. The active approach leverages a service layer (`DepartmentService`) to handle logic.
+  2. An alternative, currently commented out, interacts directly with the repository for CRUD operations.
+- The alternative version covers all main CRUD functions: fetching, creating, updating, and deleting departments.
+- To activate the direct repository approach, simply uncomment the related code block in the controller and disable the service-based code.
+- It is advisable to add comprehensive error handling and input validation before deploying in a real-world environment.
+- Planned improvements include completing the Employee model and creating corresponding endpoints for employee management.
+
 
 ## Dependencies
 - Spring Boot
